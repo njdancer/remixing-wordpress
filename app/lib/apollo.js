@@ -1,6 +1,6 @@
-import { ApolloClient, InMemoryCache} from "@apollo/client";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 export const client = new ApolloClient({
-    uri: 'https://myremixapp.wpengine.com/graphql',
-    cache: new InMemoryCache()
-})
+  uri: new URL("/graphql", process.env.WP_BASE_URL).toString(),
+  cache: new InMemoryCache(),
+});
