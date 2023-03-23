@@ -1,8 +1,16 @@
-import Post from "../components/Post";
 import Header from "../components/Header";
 import { useLoaderData } from "@remix-run/react";
 import { gql } from "@apollo/client";
 import { client } from "../lib/apollo";
+import { json } from "@remix-run/node";
+
+export function headers() {
+  return {
+    // max-age controls the browser cache
+    // s-maxage controls a CDN cache
+    "Cache-Control": "public, max-age=300, s-maxage=300",
+  };
+}
 
 export async function loader({ request, params }) {
   const url = new URL(request.url);
@@ -32,7 +40,13 @@ export async function loader({ request, params }) {
     });
   }
 
-  return pageData;
+  return json(pageData, {
+    headers: {
+      // max-age controls the browser cache
+      // s-maxage controls a CDN cache
+      "Cache-Control": "public, max-age=300, s-maxage=300",
+    },
+  });
 }
 
 export default function Index() {
